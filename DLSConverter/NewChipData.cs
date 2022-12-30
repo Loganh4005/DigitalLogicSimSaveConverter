@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
+using Newtonsoft;
+using Newtonsoft.Json;
 
 
 // pls opensource v1.0
@@ -68,6 +70,28 @@ public class Target
     public int PinType { get; set; }
     public int SubChipID { get; set; }
     public int PinID { get; set; }
+}
+public class ProjectSettings
+{
+    [JsonProperty] public string ProjectName;
+    [JsonProperty] public string BuildVersion;
+    [JsonProperty] public System.DateTime CreationTime;
+    [JsonProperty] public DisplayOptions DisplayOptions;
+    // List of all created chips (in order of creation -- older first)
+    [JsonProperty] public List<string> AllCreatedChips;
+    // List of starred chips (sorted by time starred -- oldest first)
+    [JsonProperty] public List<string> StarredChips;
+
+}
+[System.Serializable]
+public struct DisplayOptions
+{
+    public enum PinNameDisplayMode { Always, Hover, Toggle, Never }
+    public enum ToggleState { Off, On }
+
+    public PinNameDisplayMode MainChipPinNameDisplayMode;
+    public PinNameDisplayMode SubChipPinNameDisplayMode;
+    public ToggleState ShowCursorGuide;
 }
 
 
