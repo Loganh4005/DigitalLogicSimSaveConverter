@@ -136,7 +136,7 @@ string ConvertChip(string chipPath, string wirePath)
 
             convertedComponent.ID = new Random().Next(); // In actual sim code, is set to instance id of object, which is a unity thing that i don't have idk id yet but soon maybe.
             convertedComponent.PositionY = component.posY;
-            convertedComponent.ColourThemeName = colorSelected; // Maybe customizable later
+            convertedComponent.ColourThemeName = colorSelected; 
             exportChip.InputPins.Add(convertedComponent);
             component.newId = convertedComponent.ID;
 
@@ -148,7 +148,7 @@ string ConvertChip(string chipPath, string wirePath)
             convertedComponent.Name = component.inputPins[0].name;
             convertedComponent.ID = new Random().Next();
             convertedComponent.PositionY = component.posY;
-            convertedComponent.ColourThemeName = colorSelected; // Maybe customizable later
+            convertedComponent.ColourThemeName = colorSelected;
             exportChip.OutputPins.Add(convertedComponent);
             component.newId = convertedComponent.ID;
 
@@ -211,32 +211,32 @@ string ConvertChip(string chipPath, string wirePath)
         }
         // Create Target
         convertedWire.Target = new Target();
-        if (oldSaveChip.savedComponentChips[wire.parentChipIndex].chipName == "SIGNAL IN")
+        if (oldSaveChip.savedComponentChips[wire.childChipIndex].chipName == "SIGNAL IN")
         {
             convertedWire.Target.PinType = 1;
             convertedWire.Target.PinID = 0;
-            convertedWire.Target.SubChipID = oldSaveChip.savedComponentChips[wire.parentChipIndex].newId;
+            convertedWire.Target.SubChipID = oldSaveChip.savedComponentChips[wire.childChipIndex].newId;
 
         }
         else
-        if (oldSaveChip.savedComponentChips[wire.parentChipIndex].chipName == "SIGNAL OUT")
+        if (oldSaveChip.savedComponentChips[wire.childChipIndex].chipName == "SIGNAL OUT")
         {
             convertedWire.Target.PinType = 2;
             convertedWire.Target.PinID = 0;
-            convertedWire.Source.SubChipID = oldSaveChip.savedComponentChips[wire.parentChipIndex].newId;
+            convertedWire.Target.SubChipID = oldSaveChip.savedComponentChips[wire.childChipIndex].newId;
         }
         else
-        if (oldSaveChip.savedComponentChips[wire.parentChipIndex].inputPins[wire.parentChipOutputIndex] != null)
+        if (oldSaveChip.savedComponentChips[wire.childChipIndex].inputPins[wire.childChipInputIndex] != null)
         {
             convertedWire.Target.PinType = 3;
-            convertedWire.Target.PinID = wire.parentChipOutputIndex;
-            convertedWire.Target.SubChipID = oldSaveChip.savedComponentChips[wire.parentChipIndex].newId;
+            convertedWire.Target.PinID = wire.childChipInputIndex;
+            convertedWire.Target.SubChipID = oldSaveChip.savedComponentChips[wire.childChipIndex].newId;
 
         } else
         {
             convertedWire.Target.PinType = 4;
-            convertedWire.Target.PinID = wire.parentChipOutputIndex;
-            convertedWire.Target.SubChipID = oldSaveChip.savedComponentChips[wire.parentChipIndex].newId;
+            convertedWire.Target.PinID = wire.childChipInputIndex;
+            convertedWire.Target.SubChipID = oldSaveChip.savedComponentChips[wire.childChipIndex].newId;
         }
         convertedWire.ColourThemeName = colorSelected;
         exportChip.Connections.Add(convertedWire);
